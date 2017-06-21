@@ -9,7 +9,7 @@ import android.view.View;
 
 import eu.inloop.viewmodel.AbstractViewModel;
 import eu.inloop.viewmodel.IView;
-import eu.inloop.viewmodel.ProxyViewHelper;
+import eu.inloop.viewmodel.IViewModelFactory;
 import eu.inloop.viewmodel.ViewModelHelper;
 import eu.inloop.viewmodel.binding.ViewModelBindingConfig;
 
@@ -23,13 +23,7 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Class<? extends AbstractViewModel<T>> viewModelClass = getViewModelClass();
-        // try to extract the ViewModel class from the implementation
-        if (viewModelClass == null) {
-            //noinspection unchecked
-            viewModelClass = (Class<? extends AbstractViewModel<T>>) ProxyViewHelper.getGenericType(getClass(), AbstractViewModel.class);
-        }
-        getViewModelHelper().onCreate(getActivity(), savedInstanceState, viewModelClass, getArguments());
+        getViewModelHelper().onCreate(getActivity(), savedInstanceState, getViewModelFactory(), getArguments());
     }
 
     @CallSuper
@@ -68,7 +62,7 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     }
 
     @Nullable
-    public Class<R> getViewModelClass() {
+    public IViewModelFactory<T> getViewModelFactory() {
         return null;
     }
 

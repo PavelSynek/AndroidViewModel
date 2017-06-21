@@ -1,10 +1,13 @@
 package eu.inloop.viewmodel.sample.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import eu.inloop.viewmodel.AbstractViewModel;
+import eu.inloop.viewmodel.IViewModelFactory;
 import eu.inloop.viewmodel.binding.ViewModelBaseBindingFragment;
 import eu.inloop.viewmodel.binding.ViewModelBindingConfig;
 import eu.inloop.viewmodel.sample.R;
@@ -33,4 +36,12 @@ public class SampleBindingFragment
     public ViewModelBindingConfig getViewModelBindingConfig() {
         return new ViewModelBindingConfig(R.layout.fragment_sample_binding, getActivity());
     }
+
+	@Nullable @Override public IViewModelFactory<ISampleBindingView> getViewModelFactory() {
+		return new IViewModelFactory<ISampleBindingView>() {
+			@NonNull @Override public AbstractViewModel<ISampleBindingView> createViewModel() {
+				return new SampleBindingViewModel();
+			}
+		};
+	}
 }
