@@ -14,14 +14,14 @@ import eu.inloop.viewmodel.binding.ViewModelBindingConfig;
 public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractViewModel<T>> extends ViewModelBaseEmptyActivity implements IView  {
 
     @NonNull
-    private final ViewModelHelper<T, R> mViewModeHelper = new ViewModelHelper<>();
+    private final ViewModelHelper<T, R> mViewModelHelper = new ViewModelHelper<>();
 
     @CallSuper
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mViewModeHelper.onCreate(this, savedInstanceState, getViewModelFactory(), getIntent().getExtras());
+        mViewModelHelper.onCreate(this, savedInstanceState, getViewModelFactory(), getIntent().getExtras());
     }
 
     /**
@@ -30,7 +30,7 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
      */
     @SuppressWarnings("unused")
     public void setModelView(@NonNull final T view) {
-        mViewModeHelper.setView(view);
+        mViewModelHelper.setView(view);
     }
 
     @Nullable
@@ -42,27 +42,27 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     @Override
     public void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
-        mViewModeHelper.onSaveInstanceState(outState);
+        mViewModelHelper.onSaveInstanceState(outState);
     }
 
     @CallSuper
     @Override
     public void onStart() {
         super.onStart();
-        mViewModeHelper.onStart();
+        mViewModelHelper.onStart();
     }
 
     @CallSuper
     @Override
     public void onStop() {
         super.onStop();
-        mViewModeHelper.onStop();
+        mViewModelHelper.onStop();
     }
 
     @CallSuper
     @Override
     public void onDestroy() {
-        mViewModeHelper.onDestroy(this);
+        mViewModelHelper.onDestroy(this);
         super.onDestroy();
     }
 
@@ -72,12 +72,12 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     @SuppressWarnings("unused")
     @NonNull
     public R getViewModel() {
-        return mViewModeHelper.getViewModel();
+        return mViewModelHelper.getViewModel();
     }
 
     @Override
     public void removeViewModel() {
-        mViewModeHelper.removeViewModel(this);
+        mViewModelHelper.removeViewModel(this);
     }
 
     @Nullable
@@ -85,4 +85,9 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     public ViewModelBindingConfig getViewModelBindingConfig() {
         return null;
     }
+
+	@NonNull
+	protected ViewModelHelper<T, R> getViewModelHelper() {
+		return mViewModelHelper;
+	}
 }
